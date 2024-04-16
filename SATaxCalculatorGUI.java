@@ -15,7 +15,8 @@ public class SATaxCalculatorGUI {
     public SATaxCalculatorGUI() {
         frame = new JFrame("South African Tax Calculator");
         panel = new JPanel();
-        panel.setLayout(new GridLayout(5, 1));
+        panel.setLayout(new GridLayout(6, 1));
+        panel.setBackground(Color.GREEN);
 
         incomeLabel = new JLabel("Enter your annual income:");
         incomeField = new JTextField();
@@ -37,6 +38,8 @@ public class SATaxCalculatorGUI {
         panel.add(calculateButton);
         panel.add(resultLabel);
 
+        calculateButton.setAlignmentX(Component.CENTER_ALIGNMENT); // Center the button
+
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 250);
@@ -57,20 +60,26 @@ public class SATaxCalculatorGUI {
 
     private double calculateTaxAmount(double income, int ageBracketIndex) {
         double tax = 0.0;
-        double[] brackets = { 0, 205900, 321600, 445100, 584200 };
-        double[] rates = { 0.18, 0.26, 0.31, 0.36, 0.39 };
-        double primaryDeduction = 14958;
 
-        double secondaryDeduction;
+        // Tax brackets and rates for South Africa according to SARS
+        double[] brackets;
+        double[] rates;
+        double primaryDeduction = 0; // No primary deduction for this tax scheme
+
         switch (ageBracketIndex) {
             case 0: // Under 65 years
-                secondaryDeduction = 0;
+                brackets = new double[]{0, 237100, 370500, 512800, 673000, 857900, 1817000};
+                rates = new double[]{0.18, 0.26, 0.31, 0.36, 0.39, 0.41, 0.45};
                 break;
             case 1: // 65 to 75 years
-                secondaryDeduction = 14958; // Secondary rebate for individuals aged 65 to 75 years
+                brackets = new double[]{0, 237100, 370500, 512800, 673000, 857900, 1817000};
+                rates = new double[]{0.18, 0.26, 0.31, 0.36, 0.39, 0.41, 0.45};
+                primaryDeduction = 14958; // Primary rebate for individuals aged 65 to 75 years
                 break;
             case 2: // Over 75 years
-                secondaryDeduction = 22994; // Secondary rebate for individuals over 75 years
+                brackets = new double[]{0, 237100, 370500, 512800, 673000, 857900, 1817000};
+                rates = new double[]{0.18, 0.26, 0.31, 0.36, 0.39, 0.41, 0.45};
+                primaryDeduction = 22994; // Primary rebate for individuals over 75 years
                 break;
             default:
                 throw new IllegalArgumentException("Invalid age bracket index.");
@@ -86,7 +95,6 @@ public class SATaxCalculatorGUI {
         }
 
         tax -= primaryDeduction;
-        tax -= secondaryDeduction;
 
         return Math.max(tax, 0);
     }
