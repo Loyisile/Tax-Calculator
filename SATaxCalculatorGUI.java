@@ -16,7 +16,7 @@ public class SATaxCalculatorGUI {
         frame = new JFrame("South African Tax Calculator");
         panel = new JPanel();
         panel.setLayout(new GridLayout(6, 1));
-        panel.setBackground(Color.GREEN);
+        panel.setBackground(Color.cyan);
 
         incomeLabel = new JLabel("Enter your annual income:");
         incomeField = new JTextField();
